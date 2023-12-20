@@ -35,3 +35,32 @@ html, body {
 .slot h4 {
     margin: 0;
 }
+
+.slot p {
+    margin: 0;
+}
+
+.degree h4 {
+    font-size: xx-large;
+}
+
+.degree p {
+    color: #757575;
+}
+
+.slot span {
+    color: #dddddd;
+}
+
+.slot small {
+    color: #dddddd;
+}
+
+.search {
+    width: 400px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    padding: 5px;
+}
