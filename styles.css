@@ -20,6 +20,8 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    border: 1em solid #ffffff;
+    border-radius: 10px;
 }
 
 .slot {
