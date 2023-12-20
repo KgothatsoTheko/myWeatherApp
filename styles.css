@@ -1,6 +1,8 @@
 html, body {
     margin: 0;
     background-color: #c0d0e9;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 .main-container {
@@ -15,8 +17,21 @@ html, body {
     width: 60%;
     background-color: #ffffff;
     text-align: center;
-    height: 20%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+}
+
+.slot {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.middle, .bottom {
+    justify-content: space-between;
+}
+
+.slot h4 {
+    margin: 0;
 }
