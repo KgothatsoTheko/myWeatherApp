@@ -1,5 +1,5 @@
 const location1 = document.querySelector('.location')
-const temperature = document.querySelector('.temperature-value ')
+const temperature = document.querySelector('.temperature-value')
 const logo = document.querySelector('.logo')
 const notification = document.querySelector('.notification')
 const weather = {}
@@ -42,7 +42,7 @@ getWeather = (latitude, longitude) => {
 }
 
 displayWeather = () => {
-    logo.innerHTML = `<img src = "icons/${weather.icon}.png"/>`;
+    logo.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo}.png"/>`;
     temperature.innerHTML = `${weather.temperature.value}&deg<span>C</span>`
     location1.innerHTML = `${weather.country}, ${weather.city}`;
 
