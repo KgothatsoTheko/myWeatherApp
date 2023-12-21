@@ -22,6 +22,14 @@ html, body {
     justify-content: space-around;
     border: 1em solid #ffffff;
     border-radius: 10px;
+    box-sizing: border-box;
+}
+
+nav {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 60%;
 }
 
 .slot {
@@ -59,7 +67,7 @@ html, body {
 }
 
 .search {
-    width: 400px;
+    width: 100%;
     border: 1px solid #ffffff;
     border-radius: 5px;
     padding-left: 10px;
