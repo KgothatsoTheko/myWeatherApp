@@ -2,12 +2,15 @@ const location1 = document.querySelector('.location')
 const temperature = document.querySelector('.temperature-value')
 const logo = document.querySelector('.logo')
 const notification = document.querySelector('.notification')
-const weather = {}
 
+//Data
+const weather = {}
+const kelvin = 273;
 weather.temperature = {
     unit: 'Celsius'
 }
 
+//gets current coordinates
 setPosition = (position) => {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -21,14 +24,17 @@ showError = (error) => {
 
 }
 
+//Fetching data from api 
 getWeather = (latitude, longitude) => {
     let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
     
+    //converts to json
     fetch(api)
     .then(function(response) {
         let data = response.json();
         return data;
     })
+    //getting data for current weather and location
     .then(function(data){
         weather.temperature.value = Math.floor(data.main.temp - kelvin);
         weather.city = data.name
@@ -41,6 +47,7 @@ getWeather = (latitude, longitude) => {
 
 }
 
+//display ui function
 displayWeather = () => {
     logo.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo}.png"/>`;
     temperature.innerHTML = `${weather.temperature.value}&deg<span>C</span>`
@@ -48,8 +55,7 @@ displayWeather = () => {
 
 }
 
-const kelvin = 273;
-
+//Checks if browser supports geolocation
 if('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(setPosition, showError);
 } else {
