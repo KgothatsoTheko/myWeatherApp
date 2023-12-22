@@ -63,6 +63,10 @@ if('geolocation' in navigator) {
     notification.innerHTML = '<p>Browser does not support Geolocation</p>';
 }
 
+btn = (event) => {
+    addEventListener(event)
+}
+
 
 
 
