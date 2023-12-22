@@ -2,6 +2,8 @@ const location1 = document.querySelector('.location')
 const temperature = document.querySelector('.temperature-value')
 const logo = document.querySelector('.logo')
 const notification = document.querySelector('.notification')
+const searchInput = document.querySelector('.search')
+const searchBtn = document.querySelector('.search-icon')
 
 //Data
 const weather = {}
@@ -25,7 +27,7 @@ showError = (error) => {
 }
 
 //Fetching data from api 
-getWeather = (latitude, longitude) => {
+getWeather = (latitude, longitude,) => {
     let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
     
     //converts to json
@@ -63,9 +65,10 @@ if('geolocation' in navigator) {
     notification.innerHTML = '<p>Browser does not support Geolocation</p>';
 }
 
-btn = (event) => {
-    addEventListener(event)
-}
+searchBtn.addEventListener('click', () => {
+    getWeather(searchInput.value)
+    console.log(searchInput.value)
+})
 
 
 
