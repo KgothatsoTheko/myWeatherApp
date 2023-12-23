@@ -49,6 +49,15 @@ getWeather = (latitude, longitude,) => {
 
 }
 
+//Fetching weather via search
+async function searchWeather (city) {
+    let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
+    let data = await res.json()
+    console.log(data)
+    
+    
+}
+
 //display ui function
 displayWeather = () => {
     logo.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo}.png"/>`;
@@ -66,8 +75,8 @@ if('geolocation' in navigator) {
 }
 
 searchBtn.addEventListener('click', () => {
-    getWeather(searchInput.value)
-    console.log(searchInput.value)
+    searchWeather(searchInput.value)
+    
 })
 
 
