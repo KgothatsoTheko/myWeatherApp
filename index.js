@@ -29,33 +29,35 @@ showError = (error) => {
 //Fetching data from api 
 getWeather = (latitude, longitude,) => {
     let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
-    
+
     //converts to json
     fetch(api)
-    .then(function(response) {
-        let data = response.json();
-        return data;
-    })
-    //getting data for current weather and location
-    .then(function(data){
-        weather.temperature.value = Math.floor(data.main.temp - kelvin);
-        weather.city = data.name
-        weather.country = data.sys.country;
-        weather.logo = data.weather[0].icon
-    })
-    .then(function(){
-        displayWeather();
-    })
+        .then(function (response) {
+            let data = response.json();
+            return data;
+        })
+        //getting data for current weather and location
+        .then(function (data) {
+            weather.temperature.value = Math.floor(data.main.temp - kelvin);
+            weather.city = data.name
+            weather.country = data.sys.country;
+            weather.logo = data.weather[0].icon
+        })
+        .then(function () {
+            displayWeather();
+        })
 
 }
 
 //Fetching weather via search
-async function searchWeather (city) {
+async function searchWeather(city) {
     let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data = await res.json()
-    console.log(data)
-    
-    
+    weather.temperature.value = Math.floor(data.main.temp - kelvin);
+    weather.city = data.name
+    weather.country = data.sys.country;
+    weather.logo = data.weather[0].icon
+    displayWeather();
 }
 
 //display ui function
@@ -67,7 +69,7 @@ displayWeather = () => {
 }
 
 //Checks if browser supports geolocation
-if('geolocation' in navigator) {
+if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(setPosition, showError);
 } else {
     notification.style.display = 'block';
@@ -76,7 +78,7 @@ if('geolocation' in navigator) {
 
 searchBtn.addEventListener('click', () => {
     searchWeather(searchInput.value)
-    
+
 })
 
 
