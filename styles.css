@@ -43,6 +43,10 @@ nav {
     justify-content: space-between;
 }
 
+.middle {
+    overflow: auto;
+}
+
 .slot h4 {
     margin: 0;
 }

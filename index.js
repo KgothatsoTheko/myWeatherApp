@@ -8,6 +8,7 @@ const logo1 = document.querySelector('.logo1')
 const temperature1 = document.querySelector('.temperature-value1')
 const time = document.querySelector('.time')
 const description = document.querySelector('.description')
+const middle = document.getElementById('middle')
 
 //Data
 const weather = {}
@@ -53,26 +54,39 @@ getWeather = (latitude, longitude) => {
             displayWeather();
         })
 
-}//Fetching data from api 5 day/ 3 hour forecast data
+}//Fetching data from api 5 day - 3 hour forecast data
 fetchWeather = (latitude, longitude) => {
     let api1 = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
 
     fetch(api1)
-    .then(function (response) {
-        let data1 = response.json();
-        return data1;
-    })
-    .then(function(data1) {
-        console.log(data1)
-        weather.temperature.value = Math.floor(data1.list[0].main.temp - kelvin);
-        weather.logo1 = data1.list[0].weather[0].icon
-        weather.time = data1.list[0].dt_txt.slice(11, 16)
-        weather.description = data1.list[0].weather[0].main
-    })
-    .then(function () {
-        showWeather();
-    })
+        .then(function (response) {
+            let data1 = response.json();
+            return data1;
+        })
+        .then(function (data1) {
+            console.log(data1)
+                data1.list.map(() => {
+                    for (i = 0; i < 5; i++) {
+                        middle.innerHTML += `<div id="slot" class="slot">
+                        <p><b class="temperature-value1">${Math.floor(data1.list[i].main.temp - kelvin)}&degC</b></p>
+                        <span class="logo1"><img id="logo1" src="http://openweathermap.org/img/w/${data1.list[i].weather[0].icon}.png" alt="show"/></span>
+                        <h4 class="time">${data1.list[i].dt_txt.slice(11, 16)}</h4>
+                        <small class="description">${data1.list[i].weather[0].main}</small>
+                </div>`
+                }
+                
+            
+        })
+        })
+    // weather.temperature.value = Math.floor(data1.list[0].main.temp - kelvin);
+    // weather.logo1 = data1.list[0].weather[0].icon
+    // weather.time = data1.list[0].dt_txt.slice(11, 16)
+    // weather.description = data1.list[0].weather[0].main
 }
+    // .then(function () {
+    //     showWeather();
+    // })
+
 
 //Fetching data weather via search
 async function searchWeather(city) {
@@ -94,14 +108,14 @@ displayWeather = () => {
 }
 
 //showing ui for 3 hour weather
-showWeather = () => {
+// showWeather = () => {
 
-    temperature1.innerHTML = `${weather.temperature.value}&deg<b>C</b>`
-    logo1.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo1}.png"/>`
-    time.innerHTML = `${weather.time}`
-    description.innerHTML = `${weather.description}`
+//     temperature1.innerHTML = `${weather.temperature.value}&deg<b>C</b>`
+//     logo1.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo1}.png"/>`
+//     time.innerHTML = `${weather.time}`
+//     description.innerHTML = `${weather.description}`
 
-}
+// }
 
 //Checks if browser supports geolocation
 if ('geolocation' in navigator) {
