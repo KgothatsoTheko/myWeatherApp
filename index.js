@@ -4,6 +4,10 @@ const logo = document.querySelector('.logo')
 const notification = document.querySelector('.notification')
 const searchInput = document.querySelector('.search')
 const searchBtn = document.querySelector('.search-icon')
+const logo1 = document.querySelector('.logo1')
+const temperature1 = document.querySelector('.temperature-value1')
+const time = document.querySelector('.time')
+const description = document.querySelector('.description')
 
 //Data
 const weather = {}
@@ -18,6 +22,7 @@ setPosition = (position) => {
     let longitude = position.coords.longitude;
 
     getWeather(latitude, longitude);
+    fetchWeather(latitude, longitude);
 }
 
 showError = (error) => {
@@ -26,8 +31,8 @@ showError = (error) => {
 
 }
 
-//Fetching data from api 
-getWeather = (latitude, longitude,) => {
+//Fetching data from api current weather
+getWeather = (latitude, longitude) => {
     let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
 
     //converts to json
@@ -38,6 +43,7 @@ getWeather = (latitude, longitude,) => {
         })
         //getting data for current weather and location
         .then(function (data) {
+            console.log(data)
             weather.temperature.value = Math.floor(data.main.temp - kelvin);
             weather.city = data.name
             weather.country = data.sys.country;
@@ -47,9 +53,28 @@ getWeather = (latitude, longitude,) => {
             displayWeather();
         })
 
+}//Fetching data from api 5 day/ 3 hour forecast data
+fetchWeather = (latitude, longitude) => {
+    let api1 = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
+
+    fetch(api1)
+    .then(function (response) {
+        let data1 = response.json();
+        return data1;
+    })
+    .then(function(data1) {
+        console.log(data1)
+        weather.temperature.value = Math.floor(data1.list[0].main.temp - kelvin);
+        weather.logo1 = data1.list[0].weather[0].icon
+        weather.time = data1.list[0].dt_txt.slice(11, 16)
+        weather.description = data1.list[0].weather[0].main
+    })
+    .then(function () {
+        showWeather();
+    })
 }
 
-//Fetching weather via search
+//Fetching data weather via search
 async function searchWeather(city) {
     let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data = await res.json()
@@ -65,6 +90,16 @@ displayWeather = () => {
     logo.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo}.png"/>`;
     temperature.innerHTML = `${weather.temperature.value}&deg<span>C</span>`
     location1.innerHTML = `${weather.country}, ${weather.city}`;
+
+}
+
+//showing ui for 3 hour weather
+showWeather = () => {
+
+    temperature1.innerHTML = `${weather.temperature.value}&deg<b>C</b>`
+    logo1.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo1}.png"/>`
+    time.innerHTML = `${weather.time}`
+    description.innerHTML = `${weather.description}`
 
 }
 
