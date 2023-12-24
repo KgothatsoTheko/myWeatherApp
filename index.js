@@ -65,18 +65,20 @@ fetchWeather = (latitude, longitude) => {
         })
         .then(function (data1) {
             console.log(data1)
-                data1.list.map(() => {
-                    for (i = 0; i < 5; i++) {
-                        middle.innerHTML += `<div id="slot" class="slot">
-                        <p><b class="temperature-value1">${Math.floor(data1.list[i].main.temp - kelvin)}&degC</b></p>
-                        <span class="logo1"><img id="logo1" src="http://openweathermap.org/img/w/${data1.list[i].weather[0].icon}.png" alt="show"/></span>
-                        <h4 class="time">${data1.list[i].dt_txt.slice(11, 16)}</h4>
-                        <small class="description">${data1.list[i].weather[0].main}</small>
-                </div>`
-                }
-                
+            var length = data1.list.length
+            console.log(length)
             
-        })
+                data1.list.map = () => {
+                    for (i = 0; i < 5; i++)
+                    middle.innerHTML += `<div id="slot" class="slot">
+                    <p><b class="temperature-value1">${Math.floor(data1.list[i].main.temp - kelvin)}&degC</b></p>
+                    <span class="logo1"><img id="logo1" src="http://openweathermap.org/img/w/${data1.list[i].weather[0].icon}.png" alt="show"/></span>
+                    <h4 class="time">${data1.list[i].dt_txt.slice(11, 16)}</h4>
+                    <small class="description">${data1.list[i].weather[0].main}</small>
+                    </div>`
+    }
+            
+            data1.list = data1.list.map()
         })
     // weather.temperature.value = Math.floor(data1.list[0].main.temp - kelvin);
     // weather.logo1 = data1.list[0].weather[0].icon
