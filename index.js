@@ -95,19 +95,37 @@ fetchWeather = (latitude, longitude) => {
 async function gettingWeather(latitude, longitude) {
     let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data2 = await log.json()
-    let day = data2.list[1].dt_txt
-    data2.list.map = () => {
-        for (i = 0; i < 7; i++) {
-            bottom.innerHTML += `<div class="slot">
-            <p><b>${Math.floor(data2.list[i].main.temp - kelvin)}&degC</b></p>
-            <span><img src="http://openweathermap.org/img/w/${data2.list[i].weather[0].icon}.png"/></span>
-            <h4>${day}</h4>
-        </div>`
-        }
+    const uniqueForeCastDays = [];
+    const createWeatherCard = (weatherItem) => {
+        return bottom.innerHTML += `<div class="slot">
+        <p><b>${Math.floor(weatherItem.main.temp - kelvin)}&degC</b></p>
+        <span><img src="http://openweathermap.org/img/w/${weatherItem.weather[0].icon}.png"/></span>
+        <h4>${weatherItem.dt_txt}</h4>
+    </div>`
     }
-    data2.list = data2.list.map()
-    console.log(data2)
-    console.log(day)
+    const fiveDaysForecast = data2.list.filter(forecast => {
+        const forecastDate = new Date(forecast.dt_txt).getDate();
+        if(!uniqueForeCastDays.includes(forecastDate)) {
+            return uniqueForeCastDays.push(forecastDate);
+        }
+    })
+    console.log(fiveDaysForecast)
+
+    fiveDaysForecast.forEach(weatherItem => {
+        createWeatherCard(weatherItem)
+    })
+
+    // fiveDaysForecast.map = () => {
+    //     for (i = 0; i < 5; i++) {
+    //         bottom.innerHTML += `<div class="slot">
+    //         <p><b>${Math.floor(fiveDaysForecast.main.temp - kelvin)}&degC</b></p>
+    //         <span><img src="http://openweathermap.org/img/w/${fiveDaysForecast.weather[0].icon}.png"/></span>
+    //         <h4>${day}</h4>
+    //     </div>`
+    //     }
+    // }
+    // data2.list = data2.list.map()
+
 }
 
 
