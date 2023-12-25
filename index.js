@@ -9,6 +9,7 @@ const temperature1 = document.querySelector('.temperature-value1')
 const time = document.querySelector('.time')
 const description = document.querySelector('.description')
 const middle = document.getElementById('middle')
+const bottom = document.getElementById('bottom')
 
 //Data
 const weather = {}
@@ -24,6 +25,7 @@ setPosition = (position) => {
 
     getWeather(latitude, longitude);
     fetchWeather(latitude, longitude);
+    gettingWeather(latitude, longitude);
 }
 
 //error message saying if you have geolocation
@@ -58,7 +60,7 @@ getWeather = (latitude, longitude) => {
 
 }
 
-//Fetching data from api 5 day - 3 hour forecast data
+//Fetching data from api 3 hour forecast data
 fetchWeather = (latitude, longitude) => {
     let api1 = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`
 
@@ -88,6 +90,25 @@ fetchWeather = (latitude, longitude) => {
     // .then(function () {
     //     showWeather();
     // })
+
+//Fetching data from api 5 day forecast data
+async function gettingWeather(latitude, longitude) {
+    let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`)
+    let data2 = await log.json()
+    let day = data2.list[1].dt_txt
+    data2.list.map = () => {
+        for (i = 0; i < 7; i++) {
+            bottom.innerHTML += `<div class="slot">
+            <p><b>${Math.floor(data2.list[i].main.temp - kelvin)}&degC</b></p>
+            <span><img src="http://openweathermap.org/img/w/${data2.list[i].weather[0].icon}.png"/></span>
+            <h4>${day}</h4>
+        </div>`
+        }
+    }
+    data2.list = data2.list.map()
+    console.log(data2)
+    console.log(day)
+}
 
 
 //Fetching data weather via search
