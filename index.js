@@ -100,7 +100,7 @@ async function gettingWeather(latitude, longitude) {
         return bottom.innerHTML += `<div class="slot">
         <p><b>${Math.floor(weatherItem.main.temp - kelvin)}&degC</b></p>
         <span><img src="http://openweathermap.org/img/w/${weatherItem.weather[0].icon}.png"/></span>
-        <h4>${weatherItem.dt_txt}</h4>
+        <h4>${findDay(weatherItem.dt_txt.slice(0, 11))}</h4>
     </div>`
     }
     const fiveDaysForecast = data2.list.filter(forecast => {
@@ -114,6 +114,15 @@ async function gettingWeather(latitude, longitude) {
     fiveDaysForecast.forEach(weatherItem => {
         createWeatherCard(weatherItem)
     })
+
+    function findDay(myDate) {
+    
+        var date = new Date(myDate);
+        
+        var week = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        
+        console.log(week[date.getDay()]);
+    } 
 
     // fiveDaysForecast.map = () => {
     //     for (i = 0; i < 5; i++) {
