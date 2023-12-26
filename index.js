@@ -82,27 +82,23 @@ fetchWeather = (latitude, longitude) => {
                 data1.list = data1.list.map()
                 console.log(data1)
         })
-    // weather.temperature.value = Math.floor(data1.list[0].main.temp - kelvin);
-    // weather.logo1 = data1.list[0].weather[0].icon
-    // weather.time = data1.list[0].dt_txt.slice(11, 16)
-    // weather.description = data1.list[0].weather[0].main
+
 }
-    // .then(function () {
-    //     showWeather();
-    // })
 
 //Fetching data from api 5 day forecast data
 async function gettingWeather(latitude, longitude) {
     let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data2 = await log.json()
     const uniqueForeCastDays = [];
+
     const createWeatherCard = (weatherItem) => {
         return bottom.innerHTML += `<div class="slot">
         <p><b>${Math.floor(weatherItem.main.temp - kelvin)}&degC</b></p>
         <span><img src="http://openweathermap.org/img/w/${weatherItem.weather[0].icon}.png"/></span>
-        <h4>${findDay(weatherItem.dt_txt.slice(0, 11))}</h4>
+        <h4>${weatherItem.dt_txt.slice(0, 11)}</h4>
     </div>`
     }
+
     const fiveDaysForecast = data2.list.filter(forecast => {
         const forecastDate = new Date(forecast.dt_txt).getDate();
         if(!uniqueForeCastDays.includes(forecastDate)) {
@@ -115,30 +111,9 @@ async function gettingWeather(latitude, longitude) {
         createWeatherCard(weatherItem)
     })
 
-    function findDay(myDate) {
-    
-        var date = new Date(myDate);
-        
-        var week = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-        
-        console.log(week[date.getDay()]);
-    } 
-
-    // fiveDaysForecast.map = () => {
-    //     for (i = 0; i < 5; i++) {
-    //         bottom.innerHTML += `<div class="slot">
-    //         <p><b>${Math.floor(fiveDaysForecast.main.temp - kelvin)}&degC</b></p>
-    //         <span><img src="http://openweathermap.org/img/w/${fiveDaysForecast.weather[0].icon}.png"/></span>
-    //         <h4>${day}</h4>
-    //     </div>`
-    //     }
-    // }
-    // data2.list = data2.list.map()
-
 }
 
-
-//Fetching data weather via search
+//Fetching data weather via search - current weather display
 async function searchWeather(city) {
     let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data = await res.json()
@@ -149,23 +124,13 @@ async function searchWeather(city) {
     displayWeather();
 }
 
-//display ui function
+//display ui function - current weather display
 displayWeather = () => {
     logo.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo}.png"/>`;
     temperature.innerHTML = `${weather.temperature.value}&deg<span>C</span>`
     location1.innerHTML = `${weather.country}, ${weather.city}`;
 
 }
-
-//showing ui for 3 hour weather
-// showWeather = () => {
-
-//     temperature1.innerHTML = `${weather.temperature.value}&deg<b>C</b>`
-//     logo1.innerHTML = `<img src = "http://openweathermap.org/img/w/${weather.logo1}.png"/>`
-//     time.innerHTML = `${weather.time}`
-//     description.innerHTML = `${weather.description}`
-
-// }
 
 //Checks if browser supports geolocation
 if ('geolocation' in navigator) {
@@ -178,11 +143,4 @@ if ('geolocation' in navigator) {
 //search function
 searchBtn.addEventListener('click', () => {
     searchWeather(searchInput.value)
-
 })
-
-
-
-
-
-
