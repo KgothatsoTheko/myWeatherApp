@@ -121,11 +121,30 @@ async function gettingWeather(latitude, longitude) {
 async function searchWeather(city) {
     let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data = await res.json()
+    let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
+    let data2 = await log.json()
+    console.log(data)
+    console.log(data2)
     weather.temperature.value = Math.floor(data.main.temp - kelvin);
     weather.city = data.name
     weather.country = data.sys.country;
     weather.logo = data.weather[0].icon
-    displayWeather();
+    displayWeather()
+
+    //search function for 3 hour display
+    newArr = data2.list
+    console.log(newArr)
+    newArr.map = () => {
+        for (i = 0; i < 5; i++)
+        middle.innerHTML += `<div id="slot" class="slot">
+        <p><b class="temperature-value1">${Math.floor(newArr[i].main.temp - kelvin)}&degC</b></p>
+        <span class="logo1"><img id="logo1" src="http://openweathermap.org/img/w/${newArr[i].weather[0].icon}.png" alt="show"/></span>
+        <h4 class="time">${newArr[i].dt_txt.slice(11, 16)}</h4>
+        <small class="description">${newArr[i].weather[0].main}</small>
+        </div>`
+    } 
+    newArr = newArr.map() 
+    console.log(newArr)
 }
 
 //display ui function - current weather display
