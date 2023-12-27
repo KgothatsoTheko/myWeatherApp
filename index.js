@@ -92,13 +92,17 @@ async function gettingWeather(latitude, longitude) {
     const uniqueForeCastDays = [];
 
     const createWeatherCard = (weatherItem) => {
+        const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',]
+        const day = new Date(weatherItem.dt_txt.slice(0, 11))
+        console.log(week[day.getDay()])
         return bottom.innerHTML += `<div class="slot">
         <p><b>${Math.floor(weatherItem.main.temp - kelvin)}&degC</b></p>
         <span><img src="http://openweathermap.org/img/w/${weatherItem.weather[0].icon}.png"/></span>
-        <h4>${weatherItem.dt_txt.slice(0, 11)}</h4>
+        <h4>${week[day.getDay()]}</h4>
     </div>`
     }
 
+    //Filter data for the list array containing dates
     const fiveDaysForecast = data2.list.filter(forecast => {
         const forecastDate = new Date(forecast.dt_txt).getDate();
         if(!uniqueForeCastDays.includes(forecastDate)) {
