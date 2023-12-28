@@ -4,10 +4,10 @@ const logo = document.querySelector('.logo')
 const notification = document.querySelector('.notification')
 const searchInput = document.querySelector('.search')
 const searchBtn = document.querySelector('.search-icon')
-const logo1 = document.querySelector('.logo1')
-const temperature1 = document.querySelector('.temperature-value1')
-const time = document.querySelector('.time')
-const description = document.querySelector('.description')
+const logo1 = document.getElementById('logo1')
+const temperature1 = document.getElementById('temperature-value1')
+const time = document.getElementById('time')
+const description = document.getElementById('description')
 const middle = document.getElementById('middle')
 const bottom = document.getElementById('bottom')
 
@@ -47,7 +47,6 @@ getWeather = (latitude, longitude) => {
         })
         //getting data for current weather and location
         .then(function (data) {
-            console.log(data)
             weather.temperature.value = Math.floor(data.main.temp - kelvin);
             weather.city = data.name
             weather.country = data.sys.country;
@@ -71,18 +70,18 @@ fetchWeather = (latitude, longitude) => {
         })
         .then(function (data1) {
             data1.list.map = () => {
-                for (i = 0; i < 5; i++)
-                middle.innerHTML += `<div id="slot" class="slot">
+                for (i = 0; i < 5; i++) {
+                    middle.innerHTML += `<div id="slot" class="slot">
                 <p><b class="temperature-value1">${Math.floor(data1.list[i].main.temp - kelvin)}&degC</b></p>
                 <span class="logo1"><img id="logo1" src="http://openweathermap.org/img/w/${data1.list[i].weather[0].icon}.png" alt="show"/></span>
                 <h4 class="time">${data1.list[i].dt_txt.slice(11, 16)}</h4>
                 <small class="description">${data1.list[i].weather[0].main}</small>
                 </div>`
+                }
+                
             }
-                data1.list = data1.list.map()
-                console.log(data1)
+                data1 = data1.list.map()
         })
-
 }
 
 //Fetching data from api 5 day forecast data
@@ -94,7 +93,6 @@ async function gettingWeather(latitude, longitude) {
     const createWeatherCard = (weatherItem) => {
         const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',]
         const day = new Date(weatherItem.dt_txt.slice(0, 11))
-        console.log(week[day.getDay()])
         return bottom.innerHTML += `<div class="slot">
         <p><b>${Math.floor(weatherItem.main.temp - kelvin)}&degC</b></p>
         <span><img src="http://openweathermap.org/img/w/${weatherItem.weather[0].icon}.png"/></span>
@@ -109,7 +107,6 @@ async function gettingWeather(latitude, longitude) {
             return uniqueForeCastDays.push(forecastDate);
         }
     })
-    console.log(fiveDaysForecast)
 
     fiveDaysForecast.forEach(weatherItem => {
         createWeatherCard(weatherItem)
@@ -121,31 +118,41 @@ async function gettingWeather(latitude, longitude) {
 async function searchWeather(city) {
     let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data = await res.json()
-    let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
-    let data2 = await log.json()
-    console.log(data)
-    console.log(data2)
     weather.temperature.value = Math.floor(data.main.temp - kelvin);
     weather.city = data.name
     weather.country = data.sys.country;
     weather.logo = data.weather[0].icon
-    displayWeather()
+    displayWeather()         
+}
 
-    //search function for 3 hour display
-    newArr = data2.list
+//fetching data weather via search - 3 hour weather display 
+async function searchWeather1(city) {
+    let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
+    let data2 = await log.json()
+    let newArr = data2.list
     console.log(newArr)
     newArr.map = () => {
-        for (i = 0; i < 5; i++)
-        middle.innerHTML += `<div id="slot" class="slot">
+        for (i = 0; i < 5; i++) {
+            middle.innerHTML += `<div id="slot" class="slot">
         <p><b class="temperature-value1">${Math.floor(newArr[i].main.temp - kelvin)}&degC</b></p>
         <span class="logo1"><img id="logo1" src="http://openweathermap.org/img/w/${newArr[i].weather[0].icon}.png" alt="show"/></span>
         <h4 class="time">${newArr[i].dt_txt.slice(11, 16)}</h4>
         <small class="description">${newArr[i].weather[0].main}</small>
         </div>`
-    } 
-    newArr = newArr.map() 
-    console.log(newArr)
+        }
+        
+    }
+        data2 = newArr.map()
 }
+
+//fetching data weather via search - 5 day weather
+async function searchWeather2(city) {
+    let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
+    let data3 = await log.json()
+    console.log(data3)
+
+}
+
 
 //display ui function - current weather display
 displayWeather = () => {
@@ -166,4 +173,7 @@ if ('geolocation' in navigator) {
 //search function
 searchBtn.addEventListener('click', () => {
     searchWeather(searchInput.value)
+    middle.innerHTML = ''
+    searchWeather1(searchInput.value)
+    bottom.innerHTML = ''
 })
