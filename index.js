@@ -125,12 +125,12 @@ async function searchWeather(city) {
     displayWeather()         
 }
 
-//fetching data weather via search - 3 hour weather display 
+//fetching data weather via search - 3 hour weatherand 5 day weather
 async function searchWeather1(city) {
     let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data2 = await log.json()
     let newArr = data2.list
-    console.log(newArr)
+    const uniqueForeCastDays = [];
     newArr.map = () => {
         for (i = 0; i < 5; i++) {
             middle.innerHTML += `<div id="slot" class="slot">
@@ -143,16 +143,30 @@ async function searchWeather1(city) {
         
     }
         data2 = newArr.map()
+
+    const createWeatherCard = (weatherItem) => {
+        const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',]
+        const day = new Date(weatherItem.dt_txt.slice(0, 11))
+        return bottom.innerHTML += `<div class="slot">
+        <p><b>${Math.floor(weatherItem.main.temp - kelvin)}&degC</b></p>
+        <span><img src="http://openweathermap.org/img/w/${weatherItem.weather[0].icon}.png"/></span>
+        <h4>${week[day.getDay()]}</h4>
+    </div>`
+    }
+
+    //Filter data for the list array containing dates
+    const fiveDaysForecast = newArr.filter(forecast => {
+        const forecastDate = new Date(forecast.dt_txt).getDate();
+        if(!uniqueForeCastDays.includes(forecastDate)) {
+            return uniqueForeCastDays.push(forecastDate);
+        }
+    })
+
+    fiveDaysForecast.forEach(weatherItem => {
+        createWeatherCard(weatherItem)
+    })
+
 }
-
-//fetching data weather via search - 5 day weather
-async function searchWeather2(city) {
-    let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
-    let data3 = await log.json()
-    console.log(data3)
-
-}
-
 
 //display ui function - current weather display
 displayWeather = () => {
@@ -174,6 +188,6 @@ if ('geolocation' in navigator) {
 searchBtn.addEventListener('click', () => {
     searchWeather(searchInput.value)
     middle.innerHTML = ''
-    searchWeather1(searchInput.value)
     bottom.innerHTML = ''
+    searchWeather1(searchInput.value)
 })
