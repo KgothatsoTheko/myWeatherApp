@@ -32,7 +32,7 @@ nav {
     justify-content: center;
     display: flex;
     align-items: center;
-    width: 40%;
+    width: 60%;
     gap: 1em;
 }
 
@@ -44,9 +44,6 @@ nav {
 
 .middle, .bottom {
     justify-content: space-between;
-}
-
-.middle {
     overflow: auto;
 }
 
@@ -78,17 +75,15 @@ nav {
     width: 100%;
     border: 1px solid #ffffff;
     border-radius: 5px;
-    padding-left: 10px;
+    position: relative;
     box-sizing: border-box;
     padding: 5px;
 }
 
 .search-icon {
-    background-color: white;
-    border-radius: 50%;
-    border: 1px solid white;
-    padding: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    right: 10%;
+    border: none;
+    background: transparent;
+    color: white;
 }
