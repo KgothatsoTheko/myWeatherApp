@@ -52,6 +52,7 @@ getWeather = (latitude, longitude) => {
         .then(function () {
             displayWeather();
         })
+        
 
 }
 
