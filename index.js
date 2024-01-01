@@ -52,7 +52,7 @@ getWeather = (latitude, longitude) => {
         .then(function () {
             displayWeather();
         })
-        
+
 
 }
 
@@ -105,6 +105,7 @@ async function gettingWeather(latitude, longitude) {
         }
     })
 
+    //looping through date
     fiveDaysForecast.forEach(weatherItem => {
         createWeatherCard(weatherItem)
     })
