@@ -83,7 +83,9 @@ nav {
 .search-icon {
     position: absolute;
     right: 10%;
-    border: none;
-    background: transparent;
-    color: white;
+    background: white;
+    color: black;
+    border-radius: 50%;
+    border: 1px solid white;
+    padding: 3px;
 }

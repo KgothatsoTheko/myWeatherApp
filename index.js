@@ -115,6 +115,10 @@ async function gettingWeather(latitude, longitude) {
 //Fetching data weather via search - current weather display
 async function searchWeather(city) {
     let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
+    //error handeling - invalid city name entered
+    if (res.status === 404) {
+        alert('Invalid City Name. Try Again')
+    }
     let data = await res.json()
     weather.temperature.value = Math.floor(data.main.temp - kelvin);
     weather.city = data.name
