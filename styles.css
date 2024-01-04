@@ -45,6 +45,7 @@ nav {
 .middle, .bottom {
     justify-content: space-between;
     overflow: auto;
+    gap: 1em;
 }
 
 .slot h4 {
