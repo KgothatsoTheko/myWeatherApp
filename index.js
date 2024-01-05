@@ -52,8 +52,6 @@ getWeather = (latitude, longitude) => {
         .then(function () {
             displayWeather();
         })
-
-
 }
 
 //Fetching data from api 3 hour forecast data
@@ -85,7 +83,7 @@ fetchWeather = (latitude, longitude) => {
 async function gettingWeather(latitude, longitude) {
     let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data2 = await log.json()
-    const uniqueForeCastDays = [];
+    const fiveDayForecastArr = [];
 
     const createWeatherCard = (weatherItem) => {
         const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',]
@@ -98,15 +96,15 @@ async function gettingWeather(latitude, longitude) {
     }
 
     //Filter data for the list array containing dates
-    const fiveDaysForecast = data2.list.filter(forecast => {
+    const showFiveDays = data2.list.filter(forecast => {
         const forecastDate = new Date(forecast.dt_txt).getDate();
-        if(!uniqueForeCastDays.includes(forecastDate)) {
-            return uniqueForeCastDays.push(forecastDate);
+        if(!fiveDayForecastArr.includes(forecastDate)) {
+            return fiveDayForecastArr.push(forecastDate);
         }
     })
 
     //looping through date
-    fiveDaysForecast.forEach(weatherItem => {
+    showFiveDays.forEach(weatherItem => {
         createWeatherCard(weatherItem)
     })
 
@@ -118,6 +116,9 @@ async function searchWeather(city) {
     //error handeling - invalid city name entered
     if (res.status === 404) {
         alert('Invalid City Name. Try Again')
+    }
+    if (!searchInput.value) {
+        alert('Enter City Name')
     }
     let data = await res.json()
     weather.temperature.value = Math.floor(data.main.temp - kelvin);
@@ -132,7 +133,7 @@ async function searchWeather1(city) {
     let log = await fetch (`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=0ce1aa27decb947120fb897abc655f72`)
     let data2 = await log.json()
     let newArr = data2.list
-    const uniqueForeCastDays = [];
+    const fiveDayForecastArr = [];
     newArr.map = () => {
         for (i = 0; i < 5; i++) {
             middle.innerHTML += `<div id="slot" class="slot">
@@ -157,14 +158,15 @@ async function searchWeather1(city) {
     }
 
     //Filter data for the list array containing dates
-    const fiveDaysForecast = newArr.filter(forecast => {
+    const showFiveDays = newArr.filter(forecast => {
         const forecastDate = new Date(forecast.dt_txt).getDate();
-        if(!uniqueForeCastDays.includes(forecastDate)) {
-            return uniqueForeCastDays.push(forecastDate);
+        if(!fiveDayForecastArr.includes(forecastDate)) {
+            return fiveDayForecastArr.push(forecastDate);
         }
     })
 
-    fiveDaysForecast.forEach(weatherItem => {
+    //loop through
+    showFiveDays.forEach(weatherItem => {
         createWeatherCard(weatherItem)
     })
 
@@ -193,3 +195,13 @@ searchBtn.addEventListener('click', () => {
     bottom.innerHTML = ''
     searchWeather1(searchInput.value)
 })
+
+//search function by pressing enter 
+function clickPress(event) {
+    if (event.key == "Enter") {
+    searchWeather(searchInput.value)
+    middle.innerHTML = ''
+    bottom.innerHTML = ''
+    searchWeather1(searchInput.value)
+    }
+}

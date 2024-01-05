@@ -9,13 +9,15 @@
 </head>
 <body>
     <div class="main-container">
+        <!-- Search -->
         <nav>
-            <input id="search" class="search" type="search" placeholder="Enter City Name e.g., London, Tokyo, Greece">
+            <input id="search" class="search" type="search" placeholder="Enter City Name e.g., London, Tokyo, Greece" onkeypress="clickPress(event)">
             <button class="material-symbols-outlined search-icon">
                 search
             </button>
         </nav>
         <div class="notification"></div>
+        <!-- Current weather display -->
         <div class="top">
             <div class="degree">
                 <h4 class="temperature-value">-</h4>
@@ -25,6 +27,7 @@
                 <img id="logo" src="" alt="icon">
             </div>  
         </div>
+        <!-- 3 hour weather interval display -->
         <div id="middle" class="middle">
             <!-- <div id="slot" class="slot">
                 <p><b class="temperature-value1">-</b></p>
@@ -33,6 +36,7 @@
                 <small class="description">-</small>
             </div> -->
         </div>
+        <!-- 5 day weather display -->
         <div id="bottom" class="bottom">
             <!-- <div class="slot">
                 <p><b>-</b></p>
